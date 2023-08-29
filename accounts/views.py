@@ -25,8 +25,11 @@ def login(request):
         form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('accounts:login')
-            
+            next_url = request.GET.get('next') # => /articles/create/
+
+            return redirect(next_url or 'articles:index')
+            # next 인자가 url에 있을 때 => '/articles/create/' or 'articles:index'
+            # next 인자가 url에 없을 때 => None or 'article:index'
     else:
         form = CustomAuthenticationForm()
 

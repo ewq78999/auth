@@ -18,6 +18,7 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'accounts:logout' %}">logout</a>
+                <a class="nav-link" href="{% url 'articles:create' %}">Create</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link disabled" aria-disabled="true">{{user}}</a>
