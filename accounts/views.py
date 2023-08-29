@@ -5,11 +5,16 @@ from django.contrib.auth import logout as auth_logout
 
 # Create your views here.
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('articles:index')
+
+
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('accounts:signup')
+            user = form.save()
+            auth_login(request, user)
+            return redirect('articles:index')
     else:
         form = CustomUserCreationForm()
 
@@ -17,7 +22,7 @@ def signup(request):
         'form' : form,
     }
 
-    return render(request, 'signup.html', context)
+    return render(request, 'account_form.html', context)
 
 
 def login(request):
@@ -37,7 +42,7 @@ def login(request):
         'form' : form,
     }
 
-    return render(request, 'login.html', context)
+    return render(request, 'account_form.html', context)
 
 
 def logout(request):
